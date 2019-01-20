@@ -2,7 +2,7 @@
 FROM iron/go:dev
 
 WORKDIR /app
-# Set an env var that matches your github repo name, replace treeder/dockergo here with your repo name
+# Set an env var that is hardcoded to my repo. We should be able to make this passed in
 ENV SRC_DIR=/go/src/github.com/andrebriggs/goserver/
 # Add the source code:
 ADD . $SRC_DIR
