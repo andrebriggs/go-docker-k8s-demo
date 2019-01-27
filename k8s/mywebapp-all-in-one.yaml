@@ -1,0 +1,35 @@
+# mywebapp services
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: mywebapp
+  labels:
+    app: mywebapp
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: mywebapp
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mywebapp-v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mywebapp
+        version: v1
+    spec:
+      containers:
+      - name: mywebapp
+        image: andrebriggs/goserver
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+---
