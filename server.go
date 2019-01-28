@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-const version string = "1.0"
+const version string = "1.2"
 
 // Old catch all handler
 // func handler(w http.ResponseWriter, r *http.Request) {

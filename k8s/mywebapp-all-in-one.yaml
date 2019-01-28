@@ -19,7 +19,13 @@ kind: Deployment
 metadata:
   name: mywebapp-v1
 spec:
-  replicas: 1
+  replicas: 3
+  minReadySeconds: 10 # Wait 2 seconds after each new pod comes up before marked as "ready"
+  strategy:
+    type: RollingUpdate # describe how we do rolling updates
+    rollingUpdate:
+      maxUnavailable: 1 # When updating take one pod down at a time
+      maxSurge: 1 # When updating never have more than one extra pod. If replicas = 2 then never 3 pods when updating
   template:
     metadata:
       labels:
@@ -28,7 +34,7 @@ spec:
     spec:
       containers:
       - name: mywebapp
-        image: andrebriggs/goserver
+        image: andrebriggs/goserver:v1.2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080

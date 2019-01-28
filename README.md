@@ -74,6 +74,46 @@ $ curl http://(LoadBalancer Ingress IP):8080
 Congratulations! Version 1.0 of your application is running on Kubernetes.
 ```
 
+## Update the Docker image 
+
+Suppose you make changes to [server.go](server.go) file to update hardcoded version to __1.2__ and want to push new changes the Docker image tag as a __v1.2__. Do the following commands
+```
+$ docker run --rm -v "$PWD":/go/src/github.com/andrebriggs/goserver -w /go/src/github.com/andrebriggs/goserver iron/go:dev go build -o bin/myapp
+$ docker build -t andrebriggs/goserver:v1.2 .
+$ docker tag andrebriggs/goserver:latest andrebriggs/goserver:v1.2
+$ docker push andrebriggs/goserver:v1.2
+```
+
+## Rollout a new deployment
+Edit the manifest [YAML file](k8s/mywebapp-all-in-one.yaml) to alter the .spec.containers.image to be andrebriggs/goserver:v1.2
+```
+    ...
+    spec:
+      containers:
+      - name: mywebapp
+        image: andrebriggs/goserver:v1.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+```
+
+Also edit the .spec.replicas value to be 10
+
+Save then run
+
+```
+$ kubectl apply -f k8s --record
+```
+
+Then immediately run the following to check the status of the deploy
+```
+kubectl rollout status deployment mywebapp-v1
+```
+Once done try hitting the endpoint again with curl and see your changes.
+```
+Congratulations! Version 1.2 of your application is running on Kubernetes.
+```
+
 ## Kubernetes tear down
 Run the commands
 ```
