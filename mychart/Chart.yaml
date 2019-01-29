@@ -1,0 +1,6 @@
+description: A simple GoLang REST API
+home: https://github.com/andrebriggs/go-docker-k8s-demo
+name: mywebapp
+version: 0.1.0
+maintainers:
+  - name: Andre Briggs
