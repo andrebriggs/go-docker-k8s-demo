@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ include "mychart.fullname" . }}-test-connection"
+  name: "{{ include "mywebapp.fullname" . }}-test-connection"
   labels:
-    app.kubernetes.io/name: {{ include "mychart.name" . }}
-    helm.sh/chart: {{ include "mychart.chart" . }}
+    app.kubernetes.io/name: {{ include "mywebapp.name" . }}
+    helm.sh/chart: {{ include "mywebapp.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
   annotations:
@@ -14,5 +14,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args:  ['{{ include "mychart.fullname" . }}:{{ .Values.service.port }}']
+      args:  ['{{ include "mywebapp.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never

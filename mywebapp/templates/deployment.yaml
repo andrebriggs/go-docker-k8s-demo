@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mychart.fullname" . }}
+  name: {{ include "mywebapp.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "mychart.name" . }}
+      app.kubernetes.io/name: {{ include "mywebapp.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   minReadySeconds: {{ .Values.minReadySeconds }}
   strategy:
@@ -17,8 +17,8 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ include "mychart.name" . }}
-        app.kubernetes.io/name: {{ include "mychart.name" . }}
+        app: {{ include "mywebapp.name" . }}
+        app.kubernetes.io/name: {{ include "mywebapp.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
