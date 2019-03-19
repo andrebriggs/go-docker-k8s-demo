@@ -38,9 +38,9 @@ steps:
     ls -la bin
     pwd
     az login --service-principal --username $(SP_APP_ID) --password $(SP_PASS) --tenant $(SP_TENANT)
-    echo "az acr login -n $(ACR_NAME)"
-    az acr login -n $(ACR_NAME)
-    echo "az acr build --registry $(ACR_NAME).azurecr.io --image go-docker-k8s-demo:$(build.BuildNumber)"
-    az acr build --registry $(ACR_NAME).azurecr.io --image go-docker-k8s-demo:$(build.BuildNumber) .
+    #echo "az acr login -n $(ACR_NAME)"
+    #az acr login -n $(ACR_NAME)
+    echo "az acr build --registry $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber)"
+    az acr build --registry $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber) .
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build'
