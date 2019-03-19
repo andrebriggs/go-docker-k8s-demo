@@ -44,4 +44,4 @@ steps:
     echo "az acr build --debug -r $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber) ."
     az acr build --debug -r $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber) .
   workingDirectory: '$(modulePath)'
-  displayName: 'Get dependencies, then build'
+  displayName: 'Get dependencies, then build, then publish to ACR'
