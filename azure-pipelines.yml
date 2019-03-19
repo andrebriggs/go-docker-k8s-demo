@@ -35,7 +35,8 @@ steps:
         dep ensure
     fi
     docker run --rm -v "$PWD":/go/src/github.com/andrebriggs/goserver -w /go/src/github.com/andrebriggs/goserver iron/go:dev go build -v -o bin/myapp
-    ls -la bin/myapp
+    ls -la bin
+    pwd
     az login --service-principal --username $(SP_APP_ID) --password $(SP_PASS) --tenant $(SP_TENANT)
     echo "az acr login -n $(ACR_NAME)"
     az acr login -n $(ACR_NAME)
