@@ -36,5 +36,7 @@ steps:
     fi
     docker run --rm -v "$PWD":/go/src/github.com/andrebriggs/goserver -w /go/src/github.com/andrebriggs/goserver iron/go:dev go build -v -o bin/myapp
     ls -la bin/myapp
+    az acr login -n $ACR_NAME
+    az acr build --registry $(ACR_NAME) --image $(build.repository.name):$(build.BuildNumber) .
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build'
