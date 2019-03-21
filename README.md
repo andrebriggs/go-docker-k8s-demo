@@ -114,6 +114,9 @@ Once done try hitting the endpoint again with curl and see your changes.
 Congratulations! Version 1.2 of your application is running on Kubernetes.
 ```
 
+## Helm Chart
+There is a helm chart for this repo in the [mywebapp](mywebapp/Chart.yaml) directory. It is used in a [Fabrikate](https://github.com/Microsoft/fabrikate) definition [here](https://github.com/andrebriggs/fabrikate-go-server). 
+
 ## Kubernetes tear down
 Run the commands
 ```
