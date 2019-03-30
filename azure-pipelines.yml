@@ -37,10 +37,10 @@ steps:
     docker run --rm -v "$PWD":/go/src/github.com/andrebriggs/goserver -w /go/src/github.com/andrebriggs/goserver iron/go:dev go build -ldflags "-X main.appVersion=$(build.BuildNumber)" -v -o bin/myapp
     ls -la bin
     pwd
+    
     echo "az login --service-principal --username $(SP_APP_ID) --password $(SP_PASS) --tenant $(SP_TENANT)"
     az login --service-principal --username "$(SP_APP_ID)" --password "$(SP_PASS)" --tenant "$(SP_TENANT)"
-    #echo "az acr login --debug -n $(ACR_NAME)"
-    #az acr login --debug -n $(ACR_NAME)
+
     echo "az acr build -r $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber) ."
     az acr build -r $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber) .
   workingDirectory: '$(modulePath)'
