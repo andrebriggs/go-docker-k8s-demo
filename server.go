@@ -26,7 +26,7 @@ var instanceNum int
 
 func getFrontpage(w http.ResponseWriter, r *http.Request) {
 	t := time.Now().UTC()
-	fmt.Fprintf(w, "Hi folks in TLT demo! I'm instance %d running version %s of your application at %s\n", instanceNum, appVersion, t.Format("2006-01-02 15:04:05"))
+	fmt.Fprintf(w, "Hi Tyler! I'm instance %d running version %s of your application at %s\n", instanceNum, appVersion, t.Format("2006-01-02 15:04:05"))
 }
 
 func health(w http.ResponseWriter, r *http.Request) {
