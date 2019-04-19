@@ -6,23 +6,12 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var appVersion = "1.2" //Default/fallback version
 var instanceNum int
-
-// Old catch all handler
-// func handler(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:]) //substring after '/' character
-// }
-
-// func getenv(key, fallback string) string {
-// 	value := os.Getenv(key)
-// 	if len(value) == 0 {
-// 		return fallback
-// 	}
-// 	return value
-// }
 
 func getFrontpage(w http.ResponseWriter, r *http.Request) {
 	t := time.Now().UTC()
@@ -43,5 +32,6 @@ func main() {
 	http.HandleFunc("/", getFrontpage)
 	http.HandleFunc("/health", health)
 	http.HandleFunc("/version", getVersion)
+	http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
