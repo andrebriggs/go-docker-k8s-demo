@@ -6,8 +6,6 @@ import (
 	"math/rand"
 	"net/http"
 	"time"
-
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var appVersion = "1.2" //Default/fallback version
@@ -32,6 +30,5 @@ func main() {
 	http.HandleFunc("/", getFrontpage)
 	http.HandleFunc("/health", health)
 	http.HandleFunc("/version", getVersion)
-	http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
