@@ -11,10 +11,14 @@ pool:
 
 variables:
 - group: container journey
-  GOBIN:  '$(GOPATH)/bin' # Go binaries path
-  GOROOT: '/usr/local/go1.11' # Go installation path
-  GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
-  modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
+- name: GOBIN  
+  value: '$(GOPATH)/bin' # Go binaries path
+- name: GOROOT 
+  value: '/usr/local/go1.11' # Go installation path
+- name: GOPATH
+  value: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
+- name: modulePath
+  value: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
 steps:
 - bash: |
