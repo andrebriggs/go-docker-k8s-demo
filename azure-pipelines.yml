@@ -39,8 +39,8 @@ steps:
     tag_name="$(PARTITION_KEY)-$(Build.BuildId)"
     commitId=$(Build.SourceVersion)
     commitId=$(echo "${commitId:0:7}")
-    echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildNumber) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName)"
-    python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildNumber) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName) 
+    echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName) BuildNumber $(Build.BuildNumber)"
+    python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName) BuildNumber $(Build.BuildNumber)
   displayName: Update source pipeline details in Container Journey db
   env:
     CJ_REPO: https://github.com/andrebriggs/container-journey.git
