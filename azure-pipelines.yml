@@ -74,4 +74,4 @@ steps:
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build, then publish to ACR'
   env:
-    IMAGE-NAME: $(IMAGE-TAG-NAME) 
+    IMAGE-NAME: $IMAGE-TAG-NAME 
