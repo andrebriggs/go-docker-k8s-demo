@@ -39,8 +39,8 @@ steps:
     tag_name="$(PARTITION_KEY)-$(Build.BuildId)"
     commitId=$(Build.SourceVersion)
     commitId=$(echo "${commitId:0:7}")
-    echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId branch $(Build.SourceBranchName)"
-    python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId branch $(Build.SourceBranchName) 
+    echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildNumber) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName)"
+    python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildNumber) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName) 
   displayName: Update source pipeline details in Container Journey db
   env:
     CJ_REPO: https://github.com/andrebriggs/container-journey.git
@@ -69,9 +69,7 @@ steps:
     echo "az login --service-principal --username $(SP_APP_ID) --password $(SP_PASS) --tenant $(SP_TENANT)"
     az login --service-principal --username "$(SP_APP_ID)" --password "$(SP_PASS)" --tenant "$(SP_TENANT)"
 
-    echo "az acr build -r $(ACR_NAME) --image $(IMAGE-NAME):$(build.BuildNumber) ."
-    az acr build -r $(ACR_NAME) --image $(IMAGE-NAME):$(build.BuildNumber) .
+    echo "az acr build -r $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber) ."
+    az acr build -r $(ACR_NAME) --image go-docker-k8s-demo:$(build.BuildNumber) .
   workingDirectory: '$(modulePath)'
-  displayName: 'Get dependencies, then build, then publish to ACR'
-  env:
-    IMAGE-NAME: $IMAGE-TAG-NAME 
+  displayName: 'Get dependencies, then build, then publish to ACR' 
