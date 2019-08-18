@@ -69,8 +69,8 @@ steps:
     echo "az login --service-principal --username $(SP_APP_ID) --password $(SP_PASS) --tenant $(SP_TENANT)"
     az login --service-principal --username "$(SP_APP_ID)" --password "$(SP_PASS)" --tenant "$(SP_TENANT)"
 
-    echo "az acr build -r $(ACR_NAME) --image $IMAGE-NAME:$(build.BuildNumber) ."
-    az acr build -r $(ACR_NAME) --image $IMAGE-NAME:$(build.BuildNumber) .
+    echo "az acr build -r $(ACR_NAME) --image $(IMAGE-NAME):$(build.BuildNumber) ."
+    az acr build -r $(ACR_NAME) --image $(IMAGE-NAME):$(build.BuildNumber) .
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build, then publish to ACR'
   env:
