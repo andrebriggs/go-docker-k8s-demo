@@ -22,7 +22,7 @@ variables:
 
 steps:
 - bash: |
-    git clone https://github.com/samiyaakhtar/container-journey.git
+    git clone $CJ_REPO
     cd container-journey/pipeline-scripts
 
     sudo /usr/bin/easy_install virtualenv
@@ -36,9 +36,11 @@ steps:
     tag_name="$(PARTITION_KEY)-$(Build.BuildId)"
     commitId=$(Build.SourceVersion)
     commitId=$(echo "${commitId:0:7}")
-    echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId"
-    python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId 
+    echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId branch $(Build.SourceBranchName)"
+    python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId branch $(Build.SourceBranchName) 
   displayName: Update source pipeline details in Container Journey db
+  env:
+      CJ_REPO: https://github.com/andrebriggs/container-journey.git
 - script: |
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
