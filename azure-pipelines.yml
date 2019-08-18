@@ -22,6 +22,7 @@ variables:
 
 steps:
 - bash: |
+    echo "CJ_REPO is $CJ_REPO"
     git clone $CJ_REPO
     cd container-journey/pipeline-scripts
 
@@ -40,7 +41,7 @@ steps:
     python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(PARTITION_KEY) p1 $(Build.BuildId) imageTag $tag_name commitId $commitId branch $(Build.SourceBranchName) 
   displayName: Update source pipeline details in Container Journey db
   env:
-      CJ_REPO: https://github.com/andrebriggs/container-journey.git
+    CJ_REPO: https://github.com/andrebriggs/container-journey.git
 - script: |
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
