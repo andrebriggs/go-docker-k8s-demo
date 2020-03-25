@@ -10,7 +10,8 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 variables:
-- group: container journey
+- name: LISTEN-PORT
+  value: "80"
 - name: IMAGE-TAG-NAME
   value: go-docker-k8s-demo
 - name: GOBIN  
@@ -23,26 +24,6 @@ variables:
   value: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
 steps:
-- bash: |
-    echo "CJ_REPO is $CJ_REPO"
-    git clone $CJ_REPO
-    cd ./container-journey/pipeline-scripts
-
-    sudo /usr/bin/easy_install virtualenv
-    pip install virtualenv 
-    pip install --upgrade pip
-    python -m virtualenv venv
-    source venv/bin/activate
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-
-    commitId=$(Build.SourceVersion)
-    commitId=$(echo "${commitId:0:7}")
-    echo "python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(System.TeamProject) p1 $(Build.BuildId) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName) BuildNumber $(Build.BuildNumber)"
-    python update_pipeline.py $(ACCOUNT_NAME) $(ACCOUNT_KEY) $(TABLE_NAME) $(System.TeamProject) p1 $(Build.BuildId) imageTag $(IMAGE-TAG-NAME) commitId $commitId branch $(Build.SourceBranchName) BuildNumber $(Build.BuildNumber)
-  displayName: Update source pipeline details in Container Journey db
-  env:
-    CJ_REPO: https://github.com/andrebriggs/container-journey.git
 - script: |
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
@@ -61,7 +42,7 @@ steps:
         curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
         dep ensure
     fi
-    docker run --rm -v "$PWD":/go/src/github.com/andrebriggs/goserver -w /go/src/github.com/andrebriggs/goserver iron/go:dev go build -ldflags "-X main.appVersion=$(build.BuildNumber)" -v -o bin/myapp
+    docker run --rm -v "$PWD":/go/src/github.com/andrebriggs/goserver -w /go/src/github.com/andrebriggs/goserver iron/go:dev go build -ldflags "-X main.appVersion=$(build.BuildNumber) -X main.listenPort=$(LISTEN-PORT)" -v -o bin/myapp
     ls -la bin
     pwd
     

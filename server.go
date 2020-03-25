@@ -10,6 +10,7 @@ import (
 
 var appVersion = "1.2" //Default/fallback version
 var instanceNum int
+var listenPort = "80"
 
 func getFrontpage(w http.ResponseWriter, r *http.Request) {
 	t := time.Now().UTC()
@@ -30,5 +31,6 @@ func main() {
 	http.HandleFunc("/", getFrontpage)
 	http.HandleFunc("/health", health)
 	http.HandleFunc("/version", getVersion)
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	listenAddress := fmt.Sprintf(":%s", listenPort)
+	log.Fatal(http.ListenAndServe(listenAddress, nil))
 }
