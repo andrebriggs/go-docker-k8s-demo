@@ -5,12 +5,14 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 )
 
 var appVersion = "1.2" //Default/fallback version
 var instanceNum int
-var listenPort = "80"
+var listenPort = "80" //Default port
 
 func getFrontpage(w http.ResponseWriter, r *http.Request) {
 	t := time.Now().UTC()
@@ -25,12 +27,29 @@ func getVersion(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s\n", appVersion)
 }
 
+func getEnvVars(w http.ResponseWriter, r *http.Request) {
+	builder := strings.Builder{}
+	for _, e := range os.Environ() {
+		pair := strings.SplitN(e, "=", 2)
+		builder.WriteString(fmt.Sprintf("%s\n",pair[0]))
+	}
+	result := builder.String()
+	fmt.Fprintf(w, "%s\n", result)
+}
+
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	instanceNum = rand.Intn(1000)
 	http.HandleFunc("/", getFrontpage)
 	http.HandleFunc("/health", health)
 	http.HandleFunc("/version", getVersion)
-	listenAddress := fmt.Sprintf(":%s", listenPort)
+	http.HandleFunc("/env", getEnvVars)
+	
+	var listenAddress string
+	if os.Getenv("LISTEN_PORT") != "" {
+		listenAddress = fmt.Sprintf(":%s", os.Getenv("LISTEN_PORT"))
+	} else {
+		listenAddress = fmt.Sprintf(":%s", listenPort)
+	}
 	log.Fatal(http.ListenAndServe(listenAddress, nil))
 }
